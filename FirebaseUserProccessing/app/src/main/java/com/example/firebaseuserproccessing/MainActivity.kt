@@ -18,6 +18,11 @@ class MainActivity : AppCompatActivity() {
         binding= ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         auth=Firebase.auth
+        val guncelkullanici=auth.currentUser
+        if(guncelkullanici!=null){
+            val intent=Intent(this,DusunceActivity::class.java)
+            startActivity(intent)
+        }
         binding.buttonKaydol.setOnClickListener {
             val email=binding.emailtext.text.toString().trim()
             val sifre=binding.parolatext.text.toString().trim()
