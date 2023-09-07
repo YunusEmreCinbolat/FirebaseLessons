@@ -1,8 +1,10 @@
 package com.example.firebaseuserproccessing
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -10,6 +12,7 @@ import android.widget.Toast
 import com.example.firebaseuserproccessing.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
@@ -29,10 +32,25 @@ class MainActivity : AppCompatActivity() {
         binding.buttonKaydol.setOnClickListener {
             val email=binding.emailtext.text.toString().trim()
             val sifre=binding.parolatext.text.toString().trim()
+            val kullanici_adi=binding.kullanicitext.text.toString().trim()
             auth.createUserWithEmailAndPassword(email,sifre)
                 .addOnCompleteListener(this) {task ->
                     if(task.isSuccessful){
-                       Toast.makeText(applicationContext,"kayıt başarılı",Toast.LENGTH_LONG).show()
+                        val guncelkullanici=auth.currentUser
+
+
+                        val profileUpdates = userProfileChangeRequest {
+                            displayName = kullanici_adi
+                        }
+
+                        guncelkullanici!!.updateProfile(profileUpdates)
+                            .addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    Toast.makeText(applicationContext,"${kullanici_adi} hoşgeldin",Toast.LENGTH_LONG).show()
+                                }
+                            }
+
+                        Toast.makeText(applicationContext,"kayıt başarılı",Toast.LENGTH_LONG).show()
                     }
                 }.addOnFailureListener { exception->
                     Toast.makeText(applicationContext,exception.localizedMessage,Toast.LENGTH_LONG).show()
@@ -44,7 +62,7 @@ class MainActivity : AppCompatActivity() {
             auth.signInWithEmailAndPassword(email,sifre)
                 .addOnCompleteListener { task ->
                     if(task.isSuccessful){
-                        Toast.makeText(applicationContext,"${auth.currentUser?.email.toString()} hoşgeldiniz",Toast.LENGTH_LONG).show()
+                        Toast.makeText(applicationContext,"${auth.currentUser?.displayName.toString()} hoşgeldiniz",Toast.LENGTH_LONG).show()
                         val intent=Intent(this,DusunceActivity::class.java)
                         startActivity(intent)
                     }

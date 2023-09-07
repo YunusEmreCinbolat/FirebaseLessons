@@ -27,7 +27,7 @@
         android:inputType="text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -56,4 +56,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/parolatext" />
+
+    <EditText
+        android:id="@+id/kullanicitext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="kullanici adı"
+        android:inputType="text"
+        tools:layout_editor_absoluteX="85dp"
+        tools:layout_editor_absoluteY="487dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
